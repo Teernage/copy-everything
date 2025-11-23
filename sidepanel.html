@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OCR工具箱</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <h1>图文解锁器</h1>
+      </header>
+
+      <div class="container">
+        <!-- 解除复制限制卡片 -->
+        <div class="card compact">
+          <div class="card-header">
+            <h2><span class="icon">🔓</span>解除复制限制</h2>
+            <button id="unlockBtn" class="btn primary">一键解除</button>
+          </div>
+        </div>
+        <!-- OCR识别 -->
+        <div class="card">
+          <div class="card-header">
+            <h2><span class="icon">📷</span>OCR 文字识别</h2>
+          </div>
+
+          <!-- 配置 -->
+          <div id="config">
+            <input
+              type="text"
+              id="secretId"
+              class="input"
+              placeholder="SecretId"
+            />
+            <input
+              type="password"
+              id="secretKey"
+              class="input"
+              placeholder="SecretKey"
+            />
+            <button id="saveBtn" class="btn primary">保存配置</button>
+            <a
+              href="https://console.cloud.tencent.com/cam/capi"
+              target="_blank"
+              class="link"
+              >获取密钥 →</a
+            >
+          </div>
+
+          <!-- 上传 -->
+          <div id="upload" style="display: none">
+            <p class="title">添加图片</p>
+            <div class="methods">
+              <button id="screenshotBtn" class="method">
+                <span class="method-icon">📸</span>
+                <span>页面截图</span>
+              </button>
+            </div>
+            <div id="dropZone" class="drop-zone">
+              <span class="drop-icon">⬆️</span>
+              <p>点击或拖拽上传图片</p>
+              <p class="hint">支持 PNG、JPG、JPEG、GIF</p>
+            </div>
+            <input
+              type="file"
+              id="fileInput"
+              accept="image/*"
+              style="display: none"
+            />
+          </div>
+
+          <!-- 预览 -->
+          <div id="preview" style="display: none">
+            <img id="previewImg" class="preview-img" />
+            <div class="actions">
+              <button id="recognizeBtn" class="btn primary">开始识别</button>
+              <button id="reuploadBtn" class="btn secondary">重新上传</button>
+            </div>
+          </div>
+
+          <!-- 加载 -->
+          <div id="loading" style="display: none">
+            <div class="spinner"></div>
+            <p>识别中...</p>
+          </div>
+
+          <!-- 结果 -->
+          <div id="result" style="display: none">
+            <div class="result-header">
+              <span>✓</span>
+              <span>识别成功</span>
+            </div>
+            <textarea id="resultText" class="result-text" readonly></textarea>
+            <div class="actions">
+              <button id="copyBtn" class="btn primary">复制文字</button>
+              <button id="downloadBtn" class="btn secondary">下载图片</button>
+            </div>
+            <button id="resetBtn" class="btn outline">重新识别</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 截图弹窗 -->
+      <div id="modal" class="modal" style="display: none">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>选择截图方式</h3>
+            <button id="closeModal" class="close">×</button>
+          </div>
+          <div class="modal-body">
+            <button id="captureVisible" class="option">
+              <span class="option-icon">📱</span>
+              <div>
+                <div class="option-title">可见区域</div>
+                <div class="option-desc">截取当前窗口</div>
+              </div>
+            </button>
+            <button id="captureArea" class="option">
+              <span class="option-icon">✂️</span>
+              <div>
+                <div class="option-title">自选区域</div>
+                <div class="option-desc">拖动选择任意区域</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="tencentOCR.js"></script>
+    <script src="sidepanel.js"></script>
+  </body>
+</html>
