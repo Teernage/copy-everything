@@ -4,6 +4,7 @@
  * @returns {HTMLElement} 元素引用
  */
 const $ = (id) => document.getElementById(id);
+
 /**
  * 显示元素
  * @param {string} id 元素id
@@ -14,6 +15,7 @@ const show = (id, visible = true) => {
   const displayValue = el.classList.contains('modal') ? 'flex' : 'block';
   el.style.display = visible ? displayValue : 'none';
 };
+
 /**
  * 隐藏元素
  * @param {string} id 元素id
