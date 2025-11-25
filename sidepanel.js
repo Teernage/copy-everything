@@ -223,7 +223,7 @@ async function captureArea() {
     toast('请在页面上拖动选择区域', 'success');
   } catch (e) {
     toast('请刷新页面后重试', 'error');
-    console.error('报错原因', e);
+    console.error('截图报错原因', e);
   }
 }
 
