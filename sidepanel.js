@@ -208,11 +208,22 @@ async function captureArea() {
       active: true,
       currentWindow: true,
     });
+    // 检查当前页面是否为受限页面
+    if (
+      !tab.url ||
+      tab.url.startsWith('chrome://') ||
+      tab.url.startsWith('chrome-extension://') ||
+      tab.url.startsWith('about:')
+    ) {
+      toast('此类页面不支持截图功能，请在普通网页中使用', 'error');
+      return;
+    }
     await chrome.tabs.sendMessage(tab.id, { action: 'startAreaCapture' });
     setCaptureBusy(true);
     toast('请在页面上拖动选择区域', 'success');
-  } catch {
+  } catch (e) {
     toast('请刷新页面后重试', 'error');
+    console.error('报错原因', e);
   }
 }
 
