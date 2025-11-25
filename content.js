@@ -81,20 +81,9 @@ function enableTextCopy() {
 
   // 4. 注入脚本禁用 preventDefault
   const script = document.createElement('script');
-  script.textContent = `
-    (function() {
-      if (window.__preventDefaultDisabled) return;
-      window.__preventDefaultDisabled = true;
-      const blockedEvents = new Set(${JSON.stringify(restrictedEvents)});
-      const originalPreventDefault = Event.prototype.preventDefault;
-      Event.prototype.preventDefault = function() {
-        if (blockedEvents.has(this.type)) return;
-        return originalPreventDefault.call(this);
-      };
-    })();
-  `;
-  document.documentElement.appendChild(script);
-  script.remove();
+  script.src = chrome.runtime.getURL('inject.js');
+  (document.head || document.documentElement).appendChild(script);
+  script.onload = () => script.remove();
 
   // 5. 监听动态添加的元素
   const observer = new MutationObserver((mutations) => {
