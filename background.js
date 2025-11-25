@@ -1,10 +1,5 @@
 chrome.runtime.onInstalled.addListener(async () => {
-  chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })
-})
-
-// 点击图标打开侧边栏
-chrome.action.onClicked.addListener((tab) => {
-  chrome.sidePanel.open({ windowId: tab.windowId });
+  chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
 });
 
 // 消息处理
