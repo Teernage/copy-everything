@@ -520,3 +520,23 @@ body {
   display: inline-flex;
   justify-content: center;
 }
+
+.floating-logout {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  z-index: 1200;
+}
+.floating-logout:active {
+  transform: scale(0.98);
+  background: rgba(0, 0, 0, 0.2);
+}

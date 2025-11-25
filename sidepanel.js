@@ -57,6 +57,9 @@ function setCaptureBusy(busy) {
     $('secretId').value = secretId;
     $('secretKey').value = secretKey;
     showSection('upload');
+    setLogoutVisible(true);
+  } else {
+    setLogoutVisible(false); // 没有配置 -> 隐藏退出按钮
   }
 
   // 事件绑定
@@ -77,6 +80,7 @@ function setCaptureBusy(busy) {
   $('copyBtn').onclick = copy;
   $('downloadBtn').onclick = download;
   $('resetBtn').onclick = () => showSection('upload');
+  $('logoutBtn').onclick = logout;
   $('dropZone').onclick = () => {
     resetFileInput();
     $('fileInput').click();
@@ -98,6 +102,35 @@ function setCaptureBusy(busy) {
     });
   })();
 })();
+
+/**
+ * 退出登录
+ */
+async function logout() {
+  try {
+    await chrome.storage.local.clear();
+    $('secretId').value = '';
+    $('secretKey').value = '';
+    resetFileInput();
+    // 清理当前会话数据并回到配置页
+    currentImage = '';
+    currentDataUrl = '';
+    showSection('config');
+    setLogoutVisible(false); // 退出后隐藏
+    toast('已退出登录并清空缓存', 'success');
+  } catch {
+    toast('退出失败，请重试', 'error');
+  }
+}
+
+/**
+ * 控制退出按钮显隐
+ * @param {*} visible
+ */
+function setLogoutVisible(visible) {
+  const btn = $('logoutBtn');
+  if (btn) btn.style.display = visible ? 'block' : 'none';
+}
 
 /**
  * 设置拖拽上传区域的事件监听
@@ -147,6 +180,7 @@ async function saveConfig() {
   if (!secretId || !secretKey) return toast('请填写完整信息', 'error');
   await chrome.storage.local.set({ secretId, secretKey });
   toast('保存成功', 'success');
+  setLogoutVisible(true); // 保存成功后显示
   setTimeout(() => showSection('upload'), 1000);
 }
 
