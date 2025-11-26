@@ -109,6 +109,8 @@ function enableTextCopy() {
 function startScreenCapture() {
   createCaptureUI();
   document.addEventListener('keydown', handleEscape);
+  // 添加页面卸载前的事件监听
+  window.addEventListener('beforeunload', handleBeforeUnload);
 }
 
 /**
@@ -304,4 +306,10 @@ function cleanupUI() {
   document.removeEventListener('keydown', handleEscape);
   document.removeEventListener('mousemove', handleMouseMove);
   document.removeEventListener('mouseup', handleMouseUp);
+  // 移除页面卸载前的事件监听
+  window.removeEventListener('beforeunload', handleBeforeUnload);
+}
+
+function handleBeforeUnload() {
+  chrome.runtime.sendMessage({ action: 'areaCaptureCancelled' });
 }
